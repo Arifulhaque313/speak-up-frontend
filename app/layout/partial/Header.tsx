@@ -1,8 +1,7 @@
 'use client'
 
 import Link from 'next/link';
-
-import { useState } from 'react'
+import { useState, useEffect } from 'react';
 import {
   Dialog,
   DialogPanel,
@@ -13,7 +12,7 @@ import {
   PopoverButton,
   PopoverGroup,
   PopoverPanel,
-} from '@headlessui/react'
+} from '@headlessui/react';
 import {
   ArrowPathIcon,
   Bars3Icon,
@@ -22,30 +21,56 @@ import {
   FingerPrintIcon,
   SquaresPlusIcon,
   XMarkIcon,
-} from '@heroicons/react/24/outline'
-import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/react/20/solid'
+} from '@heroicons/react/24/outline';
+import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/react/20/solid';
 
 const products = [
   { name: 'Analytics', description: 'Get a better understanding of your traffic', href: '#', icon: ChartPieIcon },
   { name: 'Engagement', description: 'Speak directly to your customers', href: '#', icon: CursorArrowRaysIcon },
-  { name: 'Security', description: 'Your customers’ data will be safe and secure', href: '#', icon: FingerPrintIcon },
+  { name: 'Security', description: 'Your customers data will be safe and secure', href: '#', icon: FingerPrintIcon },
   { name: 'Integrations', description: 'Connect with third-party tools', href: '#', icon: SquaresPlusIcon },
   { name: 'Automations', description: 'Build strategic funnels that will convert', href: '#', icon: ArrowPathIcon },
-]
+];
 const callsToAction = [
   { name: 'Watch demo', href: '#', icon: PlayCircleIcon },
   { name: 'Contact sales', href: '#', icon: PhoneIcon },
-]
+];
 const company = [
   { name: 'About us', href: '#' },
   { name: 'Careers', href: '#' },
   { name: 'Support', href: '#' },
   { name: 'Press', href: '#' },
   { name: 'Blog', href: '#' },
-]
+];
 
-export default function Example() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+export default function Header() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userName, setUserName] = useState('');
+
+  useEffect(() => {
+    // Check if user is logged in by checking localStorage
+    const token = localStorage.getItem('authToken');
+    const name = localStorage.getItem('userName'); // You'll need to store this during login
+    if (token) {
+      setIsLoggedIn(true);
+      if (name) setUserName(name);
+    }
+  }, []);
+
+  const handleLogout = () => {
+    // Remove token and user data from localStorage
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('rememberMe');
+    localStorage.removeItem('userName');
+    
+    // Update state
+    setIsLoggedIn(false);
+    setUserName('');
+    
+    // Redirect to login page
+    window.location.href = '/auth/login';
+  };
 
   return (
     <header className="bg-white">
@@ -144,10 +169,24 @@ export default function Example() {
             </PopoverPanel>
           </Popover>
         </PopoverGroup>
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <Link href="/auth/login" className="text-sm/6 font-semibold text-gray-900">
-            Log in <span aria-hidden="true">&rarr;</span>
-          </Link>
+        <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:items-center lg:gap-4">
+          {isLoggedIn ? (
+            <>
+              <span className="text-sm/6 font-semibold text-gray-900">
+                Welcome, {userName || 'User'}
+              </span>
+              <button
+                onClick={handleLogout}
+                className="text-sm/6 font-semibold text-gray-900 hover:text-indigo-600"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <Link href="/auth/login" className="text-sm/6 font-semibold text-gray-900">
+              Log in <span aria-hidden="true">&rarr;</span>
+            </Link>
+          )}
         </div>
       </nav>
       <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
@@ -226,17 +265,31 @@ export default function Example() {
                 </Disclosure>
               </div>
               <div className="py-6">
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
-                >
-                  Log in
-                </a>
+                {isLoggedIn ? (
+                  <>
+                    <div className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900">
+                      Welcome, {userName || 'User'}
+                    </div>
+                    <button
+                      onClick={handleLogout}
+                      className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50 w-full text-left"
+                    >
+                      Logout
+                    </button>
+                  </>
+                ) : (
+                  <Link
+                    href="/auth/login"
+                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
+                  >
+                    Log in
+                  </Link>
+                )}
               </div>
             </div>
           </div>
         </DialogPanel>
       </Dialog>
     </header>
-  )
+  );
 }
