@@ -1,6 +1,7 @@
 'use client';
 
 import { API_BASE_URL } from '@/constants/const';
+import Link from 'next/link';
 import { useState, FormEvent, ChangeEvent } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -149,189 +150,186 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="container mx-auto">
-      <div className="flex justify-center px-6 my-12">
-        <div className="w-full xl:w-3/4 lg:w-11/12 flex">
-          {/* Image Column */}
-          <div
-            className="w-full h-auto bg-gray-400 hidden lg:block lg:w-5/12 bg-cover rounded-l-lg"
-            style={{
-              background: "url('https://images.unsplash.com/photo-1515965885361-f1e0095517ea?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3300&q=80')",
-              backgroundSize: "cover",
-              backgroundPosition: "center center",
-            }}
-          ></div>
-          
-          {/* Form Column */}
-          <div className="w-full lg:w-7/12 bg-white p-5 rounded-lg lg:rounded-l-none">
-            <h3 className="pt-4 text-2xl text-center">Create an Account!</h3>
-            <form className="px-8 pt-6 pb-8 mb-4 bg-white rounded" onSubmit={handleSubmit}>
-              <div className="mb-4 md:flex md:justify-between">
-                <div className="mb-4 md:mr-2 md:mb-0">
-                  <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="firstName">
-                    First Name
-                  </label>
-                  <input
-                    className={`w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${
-                      errors.firstName ? 'border-red-500' : ''
-                    }`}
-                    id="firstName"
-                    name="firstName"
-                    type="text"
-                    placeholder="First Name"
-                    value={formData.firstName}
-                    onChange={handleChange}
-                  />
-                  {errors.firstName && (
-                    <p className="text-xs italic text-red-500">{errors.firstName}</p>
-                  )}
-                </div>
-                <div className="md:ml-2">
-                  <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="lastName">
-                    Last Name
-                  </label>
-                  <input
-                    className={`w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${
-                      errors.lastName ? 'border-red-500' : ''
-                    }`}
-                    id="lastName"
-                    name="lastName"
-                    type="text"
-                    placeholder="Last Name"
-                    value={formData.lastName}
-                    onChange={handleChange}
-                  />
-                  {errors.lastName && (
-                    <p className="text-xs italic text-red-500">{errors.lastName}</p>
-                  )}
-                </div>
-              </div>
-
-              <div className="mb-4">
-                <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="username">
-                  Username
+  <div className="container mx-auto">
+    <div className="flex justify-center px-6 my-12">
+      <div className="w-full xl:w-3/4 lg:w-11/12 flex">
+        {/* Image Column */}
+        <div
+          className="w-full h-auto bg-gray-400 hidden lg:block lg:w-5/12 bg-cover rounded-l-lg"
+          style={{
+            background: "url('https://images.unsplash.com/photo-1515965885361-f1e0095517ea?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3300&q=80')",
+            backgroundSize: "cover",
+            backgroundPosition: "center center",
+          }}
+        ></div>
+        
+        {/* Form Column - Redesigned */}
+        <div className="w-full lg:w-7/12 bg-white p-8 rounded-lg lg:rounded-l-none shadow-sm">
+          <h3 className="text-3xl font-semibold text-center mb-6 text-gray-800">Create an Account</h3>
+          <form className="space-y-5" onSubmit={handleSubmit}>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="firstName">
+                  First Name
                 </label>
                 <input
-                  className={`w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${
-                    errors.username ? 'border-red-500' : ''
+                  className={`w-full px-4 py-2.5 text-sm text-gray-800 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-500 transition ${
+                    errors.firstName ? 'border-red-500 focus:ring-red-200' : ''
                   }`}
-                  id="username"
-                  name="username"
+                  id="firstName"
+                  name="firstName"
                   type="text"
-                  placeholder="Username"
-                  value={formData.username}
+                  placeholder="First Name"
+                  value={formData.firstName}
                   onChange={handleChange}
                 />
-                {errors.username && (
-                  <p className="text-xs italic text-red-500">{errors.username}</p>
+                {errors.firstName && (
+                  <p className="mt-1 text-xs text-red-600">{errors.firstName}</p>
                 )}
               </div>
-
-              <div className="mb-4">
-                <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="email">
-                  Email
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="lastName">
+                  Last Name
                 </label>
                 <input
-                  className={`w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${
-                    errors.email ? 'border-red-500' : ''
+                  className={`w-full px-4 py-2.5 text-sm text-gray-800 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-500 transition ${
+                    errors.lastName ? 'border-red-500 focus:ring-red-200' : ''
                   }`}
-                  id="email"
-                  name="email"
-                  type="email"
-                  placeholder="Email"
-                  value={formData.email}
-                  onChange={handleChange}
-                />
-                {errors.email && (
-                  <p className="text-xs italic text-red-500">{errors.email}</p>
-                )}
-              </div>
-
-              <div className="mb-4">
-                <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="address">
-                  Address
-                </label>
-                <input
-                  className={`w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${
-                    errors.address ? 'border-red-500' : ''
-                  }`}
-                  id="address"
-                  name="address"
+                  id="lastName"
+                  name="lastName"
                   type="text"
-                  placeholder="Your Address"
-                  value={formData.address}
+                  placeholder="Last Name"
+                  value={formData.lastName}
                   onChange={handleChange}
                 />
-                {errors.address && (
-                  <p className="text-xs italic text-red-500">{errors.address}</p>
+                {errors.lastName && (
+                  <p className="mt-1 text-xs text-red-600">{errors.lastName}</p>
                 )}
               </div>
+            </div>
 
-              <div className="mb-4 md:flex md:justify-between">
-                <div className="mb-4 md:mr-2 md:mb-0">
-                  <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="password">
-                    Password
-                  </label>
-                  <input
-                    className={`w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${
-                      errors.password ? 'border-red-500' : ''
-                    }`}
-                    id="password"
-                    name="password"
-                    type="password"
-                    placeholder="******************"
-                    value={formData.password}
-                    onChange={handleChange}
-                  />
-                  {errors.password ? (
-                    <p className="text-xs italic text-red-500">{errors.password}</p>
-                  ) : (
-                    <p className="text-xs italic text-gray-500">Must be at least 6 characters</p>
-                  )}
-                </div>
-                <div className="md:ml-2">
-                  <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="confirmPassword">
-                    Confirm Password
-                  </label>
-                  <input
-                    className={`w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${
-                      errors.confirmPassword ? 'border-red-500' : ''
-                    }`}
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    type="password"
-                    placeholder="******************"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                  />
-                  {errors.confirmPassword && (
-                    <p className="text-xs italic text-red-500">{errors.confirmPassword}</p>
-                  )}
-                </div>
-              </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="username">
+                Username
+              </label>
+              <input
+                className={`w-full px-4 py-2.5 text-sm text-gray-800 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-500 transition ${
+                  errors.username ? 'border-red-500 focus:ring-red-200' : ''
+                }`}
+                id="username"
+                name="username"
+                type="text"
+                placeholder="Username"
+                value={formData.username}
+                onChange={handleChange}
+              />
+              {errors.username && (
+                <p className="mt-1 text-xs text-red-600">{errors.username}</p>
+              )}
+            </div>
 
-              <div className="mb-6 text-center">
-                <button
-                  className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline"
-                  type="submit"
-                >
-                  Register Account
-                </button>
-              </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="email">
+                Email
+              </label>
+              <input
+                className={`w-full px-4 py-2.5 text-sm text-gray-800 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-500 transition ${
+                  errors.email ? 'border-red-500 focus:ring-red-200' : ''
+                }`}
+                id="email"
+                name="email"
+                type="email"
+                placeholder="Email"
+                value={formData.email}
+                onChange={handleChange}
+              />
+              {errors.email && (
+                <p className="mt-1 text-xs text-red-600">{errors.email}</p>
+              )}
+            </div>
 
-              <hr className="mb-6 border-t" />
-              <div className="text-center">
-                <a
-                  className="inline-block text-sm text-blue-500 align-baseline hover:text-blue-800"
-                  href="/auth/login"
-                >
-                  Already have an account? Login!
-                </a>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="address">
+                Address
+              </label>
+              <input
+                className={`w-full px-4 py-2.5 text-sm text-gray-800 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-500 transition ${
+                  errors.address ? 'border-red-500 focus:ring-red-200' : ''
+                }`}
+                id="address"
+                name="address"
+                type="text"
+                placeholder="Your Address"
+                value={formData.address}
+                onChange={handleChange}
+              />
+              {errors.address && (
+                <p className="mt-1 text-xs text-red-600">{errors.address}</p>
+              )}
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="password">
+                  Password
+                </label>
+                <input
+                  className={`w-full px-4 py-2.5 text-sm text-gray-800 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-500 transition ${
+                    errors.password ? 'border-red-500 focus:ring-red-200' : ''
+                  }`}
+                  id="password"
+                  name="password"
+                  type="password"
+                  placeholder="••••••••"
+                  value={formData.password}
+                  onChange={handleChange}
+                />
+                {errors.password ? (
+                  <p className="mt-1 text-xs text-red-600">{errors.password}</p>
+                ) : (
+                  <p className="mt-1 text-xs text-gray-500">Must be at least 6 characters</p>
+                )}
               </div>
-            </form>
-          </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="confirmPassword">
+                  Confirm Password
+                </label>
+                <input
+                  className={`w-full px-4 py-2.5 text-sm text-gray-800 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-500 transition ${
+                    errors.confirmPassword ? 'border-red-500 focus:ring-red-200' : ''
+                  }`}
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  type="password"
+                  placeholder="••••••••"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                />
+                {errors.confirmPassword && (
+                  <p className="mt-1 text-xs text-red-600">{errors.confirmPassword}</p>
+                )}
+              </div>
+            </div>
+
+            <button
+              className="w-full px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-medium rounded-lg shadow-sm hover:from-blue-600 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 transition"
+              type="submit"
+            >
+              Register Account
+            </button>
+
+            <div className="text-center pt-4">
+              <Link
+                className="text-sm text-blue-600 hover:text-blue-800 font-medium transition"
+                href="/auth/login"
+              >
+                Already have an account? Login here
+              </Link>
+            </div>
+          </form>
         </div>
       </div>
     </div>
-  );
+  </div>
+);
 }

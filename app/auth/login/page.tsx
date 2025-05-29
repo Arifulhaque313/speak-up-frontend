@@ -1,6 +1,7 @@
 'use client';
 
 import { API_BASE_URL } from '@/constants/const';
+import Link from 'next/link';
 import { useState, FormEvent, ChangeEvent } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -122,97 +123,103 @@ export default function LoginPage() {
     }
   };
 
-  return (
-    <div className="bg-gray-50 h-screen w-screen">
-      <div className="flex flex-col items-center flex-1 h-full justify-center px-4 sm:px-0">
-        <div
-          className="flex rounded-lg shadow-lg w-full sm:w-3/4 lg:w-1/2 bg-white sm:mx-0"
-          style={{ height: "500px" }}
-        >
-          <div className="flex flex-col w-full md:w-1/2 p-4">
-            <div className="flex flex-col flex-1 justify-center mb-8">
-              <h1 className="text-4xl text-center font-thin">Welcome Back</h1>
-              <div className="w-full mt-4">
-                <form className="form-horizontal w-3/4 mx-auto" onSubmit={handleSubmit}>
-                  <div className="flex flex-col mt-4">
-                    <input
-                      id="username"
-                      type="text"
-                      className={`flex-grow h-8 px-2 border rounded ${errors.username ? 'border-red-500' : 'border-grey-400'}`}
-                      name="username"
-                      value={formData.username}
-                      onChange={handleChange}
-                      placeholder="Username"
-                    />
-                    {errors.username && (
-                      <p className="text-red-500 text-xs mt-1">{errors.username}</p>
-                    )}
-                  </div>
-                  <div className="flex flex-col mt-4">
-                    <input
-                      id="password"
-                      type="password"
-                      className={`flex-grow h-8 px-2 rounded border ${errors.password ? 'border-red-500' : 'border-grey-400'}`}
-                      name="password"
-                      value={formData.password}
-                      onChange={handleChange}
-                      required
-                      placeholder="Password"
-                    />
-                    {errors.password && (
-                      <p className="text-red-500 text-xs mt-1">{errors.password}</p>
-                    )}
-                  </div>
-                  <div className="flex items-center mt-4">
-                    <input
-                      type="checkbox"
-                      name="remember"
-                      id="remember"
-                      checked={formData.remember}
-                      onChange={handleChange}
-                      className="mr-2"
-                    />{" "}
-                    <label htmlFor="remember" className="text-sm text-grey-dark">
-                      Remember Me
-                    </label>
-                  </div>
-                  <div className="flex flex-col mt-8">
-                    <button
-                      type="submit"
-                      className="bg-blue-500 hover:bg-blue-700 text-white text-sm font-semibold py-2 px-4 rounded"
-                    >
-                      Login
-                    </button>
-                  </div>
-                </form>
-                <div className="text-center mt-4">
-                  <a
-                    className="no-underline hover:underline text-blue-800 text-xs"
-                    href="#"
-                  >
-                    Forgot Your Password?
-                  </a>
-                  <a
-                    className="ml-5 no-underline hover:underline text-blue-dark text-xs cursor-pointer"
-                    href="/auth/register"
-                  >
-                    Register Now 
-                  </a>
-                </div>
-              </div>
-            </div>
+return (
+  <div className="bg-gray-50 py-10 md:py-44 flex items-center justify-center p-4">
+    <div className="flex rounded-xl shadow-xl w-full max-w-4xl bg-white overflow-hidden" style={{ height: "500px" }}>
+      {/* Form Column */}
+      <div className="w-full md:w-1/2 p-8 flex flex-col">
+        <div className="flex-1 flex flex-col justify-center">
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-light text-gray-800 mb-2">Welcome Back</h1>
+            <p className="text-gray-500">Sign in to your account</p>
           </div>
-          <div
-            className="hidden md:block md:w-1/2 rounded-r-lg"
-            style={{
-              background:
-                "url('https://images.unsplash.com/photo-1515965885361-f1e0095517ea?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3300&q=80')",
-              backgroundSize: "cover",
-              backgroundPosition: "center center",
-            }}
-          ></div>
+          
+          <form className="space-y-5 max-w-md mx-auto w-full" onSubmit={handleSubmit}>
+            <div>
+              <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
+                Username
+              </label>
+              <input
+                id="username"
+                type="text"
+                className={`w-full px-4 py-3 text-sm border rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-500 transition ${
+                  errors.username ? 'border-red-500 focus:ring-red-200' : 'border-gray-300'
+                }`}
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                placeholder="Enter your username"
+              />
+              {errors.username && (
+                <p className="mt-1 text-xs text-red-600">{errors.username}</p>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+                Password
+              </label>
+              <input
+                id="password"
+                type="password"
+                className={`w-full px-4 py-3 text-sm border rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-500 transition ${
+                  errors.password ? 'border-red-500 focus:ring-red-200' : 'border-gray-300'
+                }`}
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="Enter your password"
+              />
+              {errors.password && (
+                <p className="mt-1 text-xs text-red-600">{errors.password}</p>
+              )}
+            </div>
+
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <input
+                  type="checkbox"
+                  name="remember"
+                  id="remember"
+                  checked={formData.remember}
+                  onChange={handleChange}
+                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                />
+                <label htmlFor="remember" className="ml-2 block text-sm text-gray-700">
+                  Remember me
+                </label>
+              </div>
+
+              <a href="#" className="text-sm text-blue-600 hover:text-blue-800">
+                Forgot password?
+              </a>
+            </div>
+
+            <button
+              type="submit"
+              className="w-full py-3 px-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-medium rounded-lg hover:from-blue-600 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 transition shadow-sm cursor-pointer"
+            >
+              Sign In
+            </button>
+
+            <div className="text-center text-sm text-gray-500">
+              Don't have an account?{' '}
+              <Link href="/auth/register" className="font-medium text-blue-600 hover:text-blue-800">
+                Register now
+              </Link>
+            </div>
+          </form>
         </div>
       </div>
+
+      {/* Image Column */}
+      <div
+        className="hidden md:block md:w-1/2 bg-cover bg-center"
+        style={{
+          backgroundImage: "url('https://images.unsplash.com/photo-1515965885361-f1e0095517ea?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3300&q=80')"
+        }}
+      ></div>
     </div>
-  );
+  </div>
+);
 }
